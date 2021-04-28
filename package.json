@@ -1,0 +1,17 @@
+{
+  "name": "com.inthepocket.pleaseremainseated",
+  "displayName": "Please Remain Seated",
+  "description": "XR plugin that provides a simulated AR implementation for the Unity Editor and standalone builds.",
+  "version": "1.0.0",
+  "unity": "2020.3",
+  "dependencies": {
+    "com.unity.xr.arfoundation": "4.2.0-pre.5",
+    "com.unity.xr.arsubsystems": "4.2.0-pre.5",
+    "com.unity.xr.management": "4.0.0"
+  },
+  "author": {
+    "name" : "ITP Agency NV",
+    "email" : "kenny.deriemaeker@inthepocket.com",
+    "url" : "https://inthepocket.com"
+  }
+}

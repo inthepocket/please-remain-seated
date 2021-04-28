@@ -1,0 +1,9 @@
+{
+  "name": "PleaseRemainSeated",
+  "version": "1.0.0",
+  "libraryName": "PleaseRemainSeated",
+  "inputs": [
+  {
+      "id": "PleaseRemainSeated-Input"
+  }]
+}
