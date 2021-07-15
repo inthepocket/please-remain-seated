@@ -110,7 +110,6 @@ namespace PleaseRemainSeated
       /// </summary>
       public override void Start()
       {
-        Debug.Log("PRSCameraSubsystem.Start");
         _backgroundShaderTexturePropertyID = Shader.PropertyToID("_MainTex");
 
         SimulationAPI.StartCamera();
@@ -121,7 +120,6 @@ namespace PleaseRemainSeated
       /// </summary>
       public override void Stop()
       {
-        Debug.Log("PRSCameraSubsystem.Stop");
         SimulationAPI.StopCamera();
       }
 
@@ -230,7 +228,7 @@ namespace PleaseRemainSeated
       {
         var data = new XRCameraFrameData();
         data.projectionMatrix = PRSSimulation.instance.device.projectionMatrix;
-        data.timestampNs = (long)(Time.realtimeSinceStartup * 1e+9);
+        data.timestampNs = (long) (Time.realtimeSinceStartup * 1e+9);
         data.properties = XRCameraFrameProperties.ProjectionMatrix | XRCameraFrameProperties.Timestamp;
         cameraFrame = PRSUtils.CopyData<XRCameraFrame>(data);
 
@@ -258,7 +256,7 @@ namespace PleaseRemainSeated
         data.dimension = TextureDimension.Tex2D;
 
         var descriptor = PRSUtils.CopyData<XRTextureDescriptor>(data);
-        var array = new[] { descriptor }; // TODO: cache?
+        var array = new[] {descriptor}; // TODO: cache?
         return new NativeArray<XRTextureDescriptor>(array, allocator);
       }
     }

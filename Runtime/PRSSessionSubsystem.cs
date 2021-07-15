@@ -41,7 +41,6 @@ namespace PleaseRemainSeated
 
       public override void Start()
       {
-        Debug.Log("PRSSessionSubsystem.Start");
         base.Start();
 
         IsRunning = true;
@@ -62,7 +61,6 @@ namespace PleaseRemainSeated
 
       public override void Stop()
       {
-        Debug.Log("PRSSessionSubsystem.Stop");
         base.Stop();
         IsRunning = false;
       }
