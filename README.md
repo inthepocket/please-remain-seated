@@ -1,6 +1,6 @@
 # 🪑 Please Remain Seated
 
-![](https://img.shields.io/badge/Unity-2020.3-red.svg) ![](https://img.shields.io/badge/AR_Foundation-4.2.0-green.svg) ![](https://img.shields.io/badge/Universal_Render_Pipeline-10.2-blue.svg)
+![](https://img.shields.io/badge/Unity-2020.3-red.svg) ![](https://img.shields.io/badge/AR_Foundation-4.1.7-green.svg) ![](https://img.shields.io/badge/Universal_Render_Pipeline-10.x-blue.svg)
 
 Third-party Unity [XR plugin](https://docs.unity3d.com/Manual/XRPluginArchitecture.html) that simulates AR features in the Unity editor and standalone builds. Developed at [In The Pocket](https://inthepocket.com) in beautiful Ghent, Belgium.
 
@@ -13,7 +13,7 @@ The goal of this plugin is to reduce the need for on-device deployment and testi
 Currently the plugin does not put in a lot of effort to be compatible with different versions of Unity or AR Foundation, and it only supports the Universal Render Pipeline. This version has been tested and validated to work properly with:
 
 - Unity 2020.3
-- AR Foundation 4.2.0
+- AR Foundation 4.1.7
 - Universal Render Pipeline 10.x
 
 ## 👷🏻‍♀️ Features
@@ -22,6 +22,9 @@ These AR Foundation features are currently supported:
 
 - `ARSession` management
 - Passthrough rendering with `ARBackgroundRenderer`
+
+These are planned:
+
 - Horizontal and vertical `ARPlane` detection
 - `ARAnchor` creation on planes or in arbitrary positions
 - Raycasting against planes
