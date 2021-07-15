@@ -1,16 +1,22 @@
-using System.Reflection;
 using UnityEngine;
 using UnityEngine.Rendering;
-using UnityEngine.Rendering.Universal;
 using UnityEngine.XR.ARFoundation;
+#if MODULE_URP_ENABLED
+using UnityEngine.Rendering.Universal;
+#elif MODULE_LWRP_ENABLED
+using UnityEngine.Rendering.LWRP;
+#else
+using ScriptableRendererFeature = UnityEngine.ScriptableObject;
+#endif
 
 namespace PleaseRemainSeated.Rendering
 {
     /// <summary>
-    /// A render feature for rendering the camera background for AR devices.
+    /// A render feature for rendering the camera background for Please Remain Seated.
     /// </summary>
     public class PRSBackgroundRendererFeature : ScriptableRendererFeature
     {
+#if MODULE_URP_ENABLED || MODULE_LWRP_ENABLED
         /// <summary>
         /// The scriptable render pass to be added to the renderer when the camera background is to be rendered.
         /// </summary>
@@ -26,42 +32,37 @@ namespace PleaseRemainSeated.Rendering
         /// </summary>
         public override void Create()
         {
-          m_ScriptablePass = new CustomRenderPass(RenderPassEvent.BeforeRenderingOpaques);
+            m_ScriptablePass = new CustomRenderPass(RenderPassEvent.BeforeRenderingOpaques);
 
             m_BackgroundMesh = new Mesh();
-            m_BackgroundMesh.vertices =  new Vector3[]
+            m_BackgroundMesh.vertices = new []
             {
                 new Vector3(0f, 0f, 0.1f),
                 new Vector3(0f, 1f, 0.1f),
                 new Vector3(1f, 1f, 0.1f),
                 new Vector3(1f, 0f, 0.1f),
             };
-            m_BackgroundMesh.uv = new Vector2[]
+            m_BackgroundMesh.uv = new []
             {
                 new Vector2(0f, 0f),
                 new Vector2(0f, 1f),
                 new Vector2(1f, 1f),
                 new Vector2(1f, 0f),
             };
-            m_BackgroundMesh.triangles = new int[] {0, 1, 2, 0, 2, 3};
+            m_BackgroundMesh.triangles = new [] {0, 1, 2, 0, 2, 3};
         }
 
         /// <summary>
         /// Add the background rendering pass when rendering a game camera with an enabled AR camera background component.
         /// </summary>
-        /// <param name="renderer">The scriptable renderer in which to enqueue the render pass.</param>
+        /// <param name="renderer">The sriptable renderer in which to enqueue the render pass.</param>
         /// <param name="renderingData">Additional rendering data about the current state of rendering.</param>
         public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
         {
             Camera currentCamera = renderingData.cameraData.camera;
-
-            if (currentCamera.gameObject.GetComponent<ARCameraManager>() == null)
-              return;
-            
             if ((currentCamera != null) && (currentCamera.cameraType == CameraType.Game))
             {
-                PRSCameraBackground cameraBackground = GetCameraBackground(currentCamera);
-                  
+                PRSCameraBackground cameraBackground = currentCamera.gameObject.GetComponent<PRSCameraBackground>();
                 if ((cameraBackground != null) && cameraBackground.backgroundRenderingEnabled
                     && (cameraBackground.material != null))
                 {
@@ -72,34 +73,15 @@ namespace PleaseRemainSeated.Rendering
             }
         }
 
-        private PRSCameraBackground GetCameraBackground(Camera camera)
-        {
-          // Disable ARCameraBackground.
-          var arBackground = camera.gameObject.GetComponent<ARCameraBackground>();
-          if (arBackground != null)
-          {
-            arBackground.enabled = false;
-          }
-
-          // Add PRSCameraBackground.
-          var prsBackground = camera.gameObject.GetComponent<PRSCameraBackground>();
-          if (prsBackground == null)
-          {
-            prsBackground = camera.gameObject.AddComponent<PRSCameraBackground>();
-          }
-
-          return prsBackground;
-        }
-
         /// <summary>
         /// The custom render pass to render the camera background.
         /// </summary>
         class CustomRenderPass : ScriptableRenderPass
         {
             /// <summary>
-            /// The name for the custom render pass which will display in graphics debugging tools.
+            /// The name for the custom render pass which will be display in graphics debugging tools.
             /// </summary>
-            const string k_CustomRenderPassName = "AR Background Pass (URP)";
+            const string k_CustomRenderPassName = "PRS Background Pass (URP)";
 
             /// <summary>
             /// The orthogonal projection matrix for the background rendering.
@@ -133,7 +115,7 @@ namespace PleaseRemainSeated.Rendering
             }
 
             /// <summary>
-            /// Set up the background render pass.
+            /// Setup the background render pass.
             /// </summary>
             /// <param name="backgroundMesh">The mesh used for rendering the device background.</param>
             /// <param name="backgroundMaterial">The material used for rendering the device background.</param>
@@ -187,5 +169,6 @@ namespace PleaseRemainSeated.Rendering
             {
             }
         }
+#endif // MODULE_URP_ENABLED || MODULE_LWRP_ENABLED
     }
 }
