@@ -2,10 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.XR.ARSubsystems;
-using UnityEngine.Assertions;
-using PleaseRemainSeated;
-
-using Debug = UnityEngine.Debug;
 using Object = UnityEngine.Object;
 
 namespace PleaseRemainSeated.Simulation
@@ -49,23 +45,66 @@ namespace PleaseRemainSeated.Simulation
     [Tooltip("Layer containing simulation objects.")]
     public LayerMask simulationLayer;
 
+    [Header("Debugging")]
+    [SerializeField] private bool drawPlaneGizmos;
+
     /// <summary>
     /// Simulated AR device.
     /// </summary>
     public PRSSimulatedDevice device;
 
+    /// <summary>
+    /// Simulated AR planes.
+    /// </summary>
+    public List<SimulatedPlane> planes => planeGenerator.planes;
+
+    private PRSPlaneGenerator planeGenerator = new PRSPlaneGenerator();
+    private List<SimulatedPlane> addedPlanes = new List<SimulatedPlane>();
+    
     #region MonoBehaviour
 
     public void Start()
     {
+      addedPlanes = planeGenerator.Generate(simulationLayer).ToList();
+    }
+    
+    /// <summary>
+    /// Gets and clears plane updates (planes added, updated, deleted) since the last invocation.
+    /// </summary>
+    /// <param name="added">List of added planes.</param>
+    /// <param name="updated">List of updated planes.</param>
+    /// <param name="removed">List of removed plane ID's.</param>
+    public void ConsumePlaneUpdates(out List<SimulatedPlane> added, out List<SimulatedPlane> updated, out List<TrackableId> removed)
+    {
+      added = addedPlanes.ToList();
+      addedPlanes.Clear();
+
+      updated = new List<SimulatedPlane>();
+      removed = new List<TrackableId>();
     }
 
-    public void Update()
+    public void OnDrawGizmos()
     {
+      if (drawPlaneGizmos)
+      {
+        if (planes == null || planes.Count == 0)
+          return;
+
+        foreach (var plane in planes.OrderByDescending(p => p.alignment))
+        {
+          DrawPlaneGizmo(plane);
+        }
+      }
     }
 
-    public void OnDestroy()
+    private void DrawPlaneGizmo(SimulatedPlane plane)
     {
+      Gizmos.color = plane.alignment == PlaneAlignment.Vertical ? Color.yellow : Color.cyan;
+      
+      for (int i = 0; i < plane.boundary.Count - 1; i++)
+        Gizmos.DrawLine(plane.boundary[i], plane.boundary[i+1]);
+
+      Gizmos.DrawLine(plane.boundary[plane.boundary.Count - 1], plane.boundary[0]);
     }
 
     #endregion

@@ -12,7 +12,8 @@ namespace PleaseRemainSeated
   {
     static List<XRSessionSubsystemDescriptor> s_SessionSubsystemDescriptors = new List<XRSessionSubsystemDescriptor>();
     static List<XRCameraSubsystemDescriptor> s_CameraSubsystemDescriptors = new List<XRCameraSubsystemDescriptor>();
-
+    static List<XRPlaneSubsystemDescriptor> s_PlaneSubsystemDescriptors = new List<XRPlaneSubsystemDescriptor>();
+    
     /// <summary>
     /// The `XRSessionSubsystem` whose lifecycle is managed by this loader.
     /// </summary>
@@ -27,6 +28,7 @@ namespace PleaseRemainSeated
 #if UNITY_EDITOR || UNITY_STANDALONE
       CreateSubsystem<XRSessionSubsystemDescriptor, XRSessionSubsystem>(s_SessionSubsystemDescriptors, "PRS-Session");
       CreateSubsystem<XRCameraSubsystemDescriptor, XRCameraSubsystem>(s_CameraSubsystemDescriptors, "PRS-Camera");
+      CreateSubsystem<XRPlaneSubsystemDescriptor, XRPlaneSubsystem>(s_PlaneSubsystemDescriptors, "PRS-Plane");
 
       if (sessionSubsystem == null)
       {
@@ -48,6 +50,7 @@ namespace PleaseRemainSeated
 #if UNITY_EDITOR || UNITY_STANDALONE
       StartSubsystem<XRSessionSubsystem>();
       StartSubsystem<XRCameraSubsystem>();
+      StartSubsystem<XRPlaneSubsystem>();
 
       return true;
 #else
@@ -64,6 +67,7 @@ namespace PleaseRemainSeated
 #if UNITY_EDITOR || UNITY_STANDALONE
       StopSubsystem<XRSessionSubsystem>();
       StopSubsystem<XRCameraSubsystem>();
+      StopSubsystem<XRPlaneSubsystem>();
 
       return true;
 #else
@@ -80,6 +84,7 @@ namespace PleaseRemainSeated
 #if UNITY_EDITOR || UNITY_STANDALONE
       DestroySubsystem<XRSessionSubsystem>();
       DestroySubsystem<XRCameraSubsystem>();
+      DestroySubsystem<XRPlaneSubsystem>();
 #endif
       return true;
     }
