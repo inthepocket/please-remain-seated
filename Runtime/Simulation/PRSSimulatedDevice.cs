@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace PleaseRemainSeated
+namespace PleaseRemainSeated.Simulation
 {
   /// <summary>
   /// Virtual AR device.

@@ -33,10 +33,6 @@ namespace PleaseRemainSeated
 
     private class PRSProvider : Provider
     {
-      public PRSProvider()
-      {
-      }
-
       private bool hasStarted;
 
       public override void Start()
