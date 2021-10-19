@@ -1,4 +1,0 @@
-*.meta
-!Assets/*.meta
-!Editor/*.meta
-!Runtime/*.meta
