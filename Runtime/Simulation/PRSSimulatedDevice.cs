@@ -85,7 +85,7 @@ namespace PleaseRemainSeated.Simulation
       _previousPosition = transform.position;
       _previousRotation = transform.rotation;
 
-      Cursor.lockState = CursorLockMode.Confined;
+      Cursor.lockState = CursorLockMode.Locked;
       Cursor.visible = false;
       
       var mouseInput = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
