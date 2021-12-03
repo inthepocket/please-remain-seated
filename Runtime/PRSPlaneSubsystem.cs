@@ -124,7 +124,7 @@ namespace PleaseRemainSeated
       internal static NativeArray<Vector2> GetPlaneBoundary(TrackableId trackableId, Allocator allocator)
       {
         var plane = PRSSimulation.instance.planes.Find(p => p.identifier == trackableId);
-        return PRSUtils.ToNativeArray(plane.localBoundary.ToArray(), allocator);
+        return new NativeArray<Vector2>(plane.localBoundary.ToArray(), allocator);
       }
       
       /// <summary>
@@ -137,9 +137,7 @@ namespace PleaseRemainSeated
       {
         if (planes.Count == 0)
           return new NativeArray<BoundedPlane>(new BoundedPlane[] {}, allocator);
-        
-        Debug.Log($"GetBoundedPlanes called for {planes.Count} simulated planes.");
-        
+
         var array = planes
           .Select(ConvertSimulatedPlane)
           .ToArray();

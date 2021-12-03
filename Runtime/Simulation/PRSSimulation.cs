@@ -85,11 +85,8 @@ namespace PleaseRemainSeated.Simulation
 
     public void OnDrawGizmos()
     {
-      if (drawPlaneGizmos)
+      if (drawPlaneGizmos && (planes?.Count ?? 0) > 0)
       {
-        if (planes == null || planes.Count == 0)
-          return;
-
         foreach (var plane in planes.OrderByDescending(p => p.alignment))
         {
           DrawPlaneGizmo(plane);
