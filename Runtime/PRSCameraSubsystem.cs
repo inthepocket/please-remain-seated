@@ -154,7 +154,7 @@ namespace PleaseRemainSeated
       /// <param name="defaultDescriptor">Default descriptor.</param>
       /// <param name="allocator">Allocator.</param>
       /// <returns>The texture descriptors.</returns>
-      public override unsafe NativeArray<XRTextureDescriptor> GetTextureDescriptors(
+      public override NativeArray<XRTextureDescriptor> GetTextureDescriptors(
         XRTextureDescriptor defaultDescriptor,
         Allocator allocator)
       {

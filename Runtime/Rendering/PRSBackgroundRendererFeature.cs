@@ -9,6 +9,7 @@ using UnityEngine.Rendering.LWRP;
 using ScriptableRendererFeature = UnityEngine.ScriptableObject;
 #endif
 
+#if UNITY_EDITOR || UNITY_STANDALONE
 namespace PleaseRemainSeated.Rendering
 {
     /// <summary>
@@ -172,3 +173,4 @@ namespace PleaseRemainSeated.Rendering
 #endif // MODULE_URP_ENABLED || MODULE_LWRP_ENABLED
     }
 }
+#endif // UNITY_EDITOR || UNITY_STANDALONE

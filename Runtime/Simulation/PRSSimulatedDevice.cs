@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace PleaseRemainSeated
+namespace PleaseRemainSeated.Simulation
 {
   /// <summary>
   /// Virtual AR device.
@@ -85,7 +85,7 @@ namespace PleaseRemainSeated
       _previousPosition = transform.position;
       _previousRotation = transform.rotation;
 
-      Cursor.lockState = CursorLockMode.Confined;
+      Cursor.lockState = CursorLockMode.Locked;
       Cursor.visible = false;
       
       var mouseInput = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));

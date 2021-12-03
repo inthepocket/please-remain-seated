@@ -16,6 +16,7 @@ namespace PleaseRemainSeated.Rendering
   [RequireComponent(typeof(ARCameraManager))]
   public class PRSCameraBackground : MonoBehaviour
   {
+#if UNITY_EDITOR || UNITY_STANDALONE
     /// <summary>
     /// Name for the custom rendering command buffer.
     /// </summary>
@@ -387,9 +388,9 @@ namespace PleaseRemainSeated.Rendering
     /// to add the command to.</param>
     internal static void AddBeforeBackgroundRenderHandler(CommandBuffer commandBuffer)
     {
-#if !UNITY_EDITOR
-      commandBuffer.IssuePluginEvent(s_BeforeBackgroundRenderHandlerFuncPtr, 0);
-#endif
+//#if !UNITY_EDITOR
+//      commandBuffer.IssuePluginEvent(s_BeforeBackgroundRenderHandlerFuncPtr, 0);
+//#endif
     }
 
     /// <summary>
@@ -491,5 +492,6 @@ namespace PleaseRemainSeated.Rendering
         }
       }
     }
+#endif
   }
 }
