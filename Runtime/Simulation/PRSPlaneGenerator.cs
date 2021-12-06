@@ -32,7 +32,7 @@ namespace PleaseRemainSeated.Simulation
     /// Generates simulated plane data from scene colliders.
     /// </summary>
     /// <param name="simulationLayer">AR simulation layer.</param>
-    public List<SimulatedPlane> Generate(LayerMask simulationLayer)
+    public List<PRSSimulatedPlane> Generate(LayerMask simulationLayer)
     { 
       var planes = Object.FindObjectsOfType<BoxCollider>()
         .SelectMany(CreatePlanesFromCollider)
@@ -45,9 +45,9 @@ namespace PleaseRemainSeated.Simulation
       return planes;
     }
 
-    private List<SimulatedPlane> CreatePlanesFromCollider(BoxCollider box)
+    private List<PRSSimulatedPlane> CreatePlanesFromCollider(BoxCollider box)
     {
-      var result = new List<SimulatedPlane>();
+      var result = new List<PRSSimulatedPlane>();
       
       // For each of the 6 directions, determine the corner points of the face in world space.
       var size = box.size;
@@ -92,7 +92,7 @@ namespace PleaseRemainSeated.Simulation
       return result;
     }
 
-    private SimulatedPlane CreatePlane(PlaneAlignment alignment, Vector3 normal, BoxCollider box)
+    private PRSSimulatedPlane CreatePlane(PlaneAlignment alignment, Vector3 normal, BoxCollider box)
     {
       var identifier = PRSUtils.GenerateTrackableId();
       
@@ -101,7 +101,7 @@ namespace PleaseRemainSeated.Simulation
       obj.hideFlags = rootObject.gameObject.hideFlags;
       obj.layer = rootObject.gameObject.layer;
       
-      var plane = obj.AddComponent<SimulatedPlane>();
+      var plane = obj.AddComponent<PRSSimulatedPlane>();
       plane.Create(identifier, alignment, normal, GetPointsFromBoxColliderFace(box, normal));
 
       return plane;

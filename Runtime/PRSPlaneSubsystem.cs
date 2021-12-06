@@ -133,7 +133,7 @@ namespace PleaseRemainSeated
       /// <param name="planes"></param>
       /// <param name="allocator"></param>
       /// <returns></returns>
-      private static NativeArray<BoundedPlane> GetBoundedPlanes(List<SimulatedPlane> planes, Allocator allocator)
+      private static NativeArray<BoundedPlane> GetBoundedPlanes(List<PRSSimulatedPlane> planes, Allocator allocator)
       {
         if (planes.Count == 0)
           return new NativeArray<BoundedPlane>(new BoundedPlane[] {}, allocator);
@@ -146,7 +146,7 @@ namespace PleaseRemainSeated
       }
     
       // Creates a <c>ARSubsystems.BoundedPlane</c> from a simulated plane.
-      private static BoundedPlane ConvertSimulatedPlane(SimulatedPlane p)
+      private static BoundedPlane ConvertSimulatedPlane(PRSSimulatedPlane p)
       {
         var data = new BoundedPlaneData();
         data.trackableId = p.identifier;

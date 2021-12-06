@@ -9,7 +9,7 @@ namespace PleaseRemainSeated.Simulation
   /// <summary>
   /// Represents a simulated AR plane.
   /// </summary>
-  public class SimulatedPlane : MonoBehaviour
+  public class PRSSimulatedPlane : MonoBehaviour
   {
     /// <summary>
     /// Trackable ID.

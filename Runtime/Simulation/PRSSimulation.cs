@@ -53,9 +53,9 @@ namespace PleaseRemainSeated.Simulation
     /// <summary>
     /// Simulated AR planes.
     /// </summary>
-    public List<SimulatedPlane> planes = new List<SimulatedPlane>();
+    public List<PRSSimulatedPlane> planes = new List<PRSSimulatedPlane>();
 
-    private List<SimulatedPlane> addedPlanes = new List<SimulatedPlane>();
+    private List<PRSSimulatedPlane> addedPlanes = new List<PRSSimulatedPlane>();
     
     private GameObject trackablesRoot;
     
@@ -80,12 +80,12 @@ namespace PleaseRemainSeated.Simulation
     /// <param name="added">List of added planes.</param>
     /// <param name="updated">List of updated planes.</param>
     /// <param name="removed">List of removed plane ID's.</param>
-    public void ConsumePlaneUpdates(out List<SimulatedPlane> added, out List<SimulatedPlane> updated, out List<TrackableId> removed)
+    public void ConsumePlaneUpdates(out List<PRSSimulatedPlane> added, out List<PRSSimulatedPlane> updated, out List<TrackableId> removed)
     {
       added = addedPlanes.ToList();
       addedPlanes.Clear();
       
-      updated = new List<SimulatedPlane>();
+      updated = new List<PRSSimulatedPlane>();
       removed = new List<TrackableId>();
     }
 

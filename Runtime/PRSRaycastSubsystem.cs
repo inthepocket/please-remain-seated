@@ -83,24 +83,27 @@ namespace PleaseRemainSeated
         Allocator allocator)
       {
         Ray ray = PRSSimulation.instance.device.Camera.ViewportPointToRay(screenPoint);
-        RaycastHit hit;
-        
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
-        {
-          var plane = hit.collider.gameObject.GetComponent<SimulatedPlane>();
-          if (plane)
-          {
-            var data = new XRRaycastHitData();
-            data.trackableId = plane.identifier;
-            data.pose = new Pose(hit.point, Quaternion.LookRotation(hit.normal));
-            data.distance = hit.distance;
-            data.hitType = TrackableType.PlaneWithinBounds;
+        var hits = Physics.RaycastAll(ray, Mathf.Infinity)
+          .Where(h => h.collider.gameObject.GetComponent<PRSSimulatedPlane>() != null)
+          .OrderBy(h => h.distance)
+          .ToList();
 
-            return new NativeArray<XRRaycastHit>(new [] { PRSUtils.CopyData<XRRaycastHit>(data) }, allocator);;
-          }
+        var data = new XRRaycastHit[hits.Count];
+        for (int i = 0; i < hits.Count; i++)
+        {
+          var hit = hits[i];
+          var plane = hit.collider.gameObject.GetComponent<PRSSimulatedPlane>();
+          
+          var record = new XRRaycastHitData();
+          record.trackableId = plane.identifier;
+          record.pose = new Pose(hit.point, Quaternion.LookRotation(hit.normal));
+          record.distance = hit.distance;
+          record.hitType = TrackableType.PlaneWithinBounds;
+
+          data[i] = PRSUtils.CopyData<XRRaycastHit>(record);
         }
 
-        return new NativeArray<XRRaycastHit>(new XRRaycastHit[] {}, allocator);
+        return new NativeArray<XRRaycastHit>(data, allocator);;
       }
     }
   }
