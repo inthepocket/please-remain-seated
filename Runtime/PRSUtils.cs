@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using Unity.Collections;
+using UnityEngine;
 using UnityEngine.XR.ARSubsystems;
+using Random = System.Random;
 
 namespace PleaseRemainSeated
 {
@@ -32,5 +34,25 @@ namespace PleaseRemainSeated
     {
       return new TrackableId(Convert.ToUInt64(rng.Next()), Convert.ToUInt64(rng.Next()));
     }
+
+    /// <summary>
+    /// Triangulates a convex polygon.
+    /// </summary>
+    /// <param name="vertices">Ordered list of hull points.</param>
+    /// <returns>List of triangle indices.</returns>
+    internal static int[] TriangulateConvexPolygon(Vector3[] vertices)
+    {
+      var indices = new List<int>(vertices.Length * 3);
+      
+      for (int i = 2; i < vertices.Length; i++)
+      {
+        indices.Add(0);
+        indices.Add(i - 1);
+        indices.Add(i);
+      }
+
+      return indices.ToArray();
+    }
+    
   }
 }

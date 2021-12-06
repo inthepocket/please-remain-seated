@@ -22,12 +22,12 @@ These AR Foundation features are currently supported:
 
 - `ARSession` management
 - Passthrough rendering with `ARBackgroundRenderer`
+- Horizontal and vertical `ARPlane` detection based on scene `BoxCollider`s
+- Raycasting against planes
 
 These are planned:
 
-- Horizontal and vertical `ARPlane` detection
-- `ARAnchor` creation on planes or in arbitrary positions
-- Raycasting against planes
+- `ARAnchor` creation on planes or at arbitrary positions
 
 ## 👋 Alternatives
 

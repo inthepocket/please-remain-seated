@@ -4,6 +4,6 @@
   "libraryName": "PleaseRemainSeated",
   "inputs": [
   {
-      "id": "PleaseRemainSeated-Input"
+      "id": "PRS-Input"
   }]
 }

@@ -45,9 +45,6 @@ namespace PleaseRemainSeated.Simulation
     [Tooltip("Layer containing simulation objects.")]
     public LayerMask simulationLayer;
 
-    [Header("Debugging")]
-    [SerializeField] private bool drawPlaneGizmos;
-
     /// <summary>
     /// Simulated AR device.
     /// </summary>
@@ -56,16 +53,25 @@ namespace PleaseRemainSeated.Simulation
     /// <summary>
     /// Simulated AR planes.
     /// </summary>
-    public List<SimulatedPlane> planes => planeGenerator.planes;
+    public List<SimulatedPlane> planes = new List<SimulatedPlane>();
 
-    private PRSPlaneGenerator planeGenerator = new PRSPlaneGenerator();
     private List<SimulatedPlane> addedPlanes = new List<SimulatedPlane>();
+    
+    private GameObject trackablesRoot;
     
     #region MonoBehaviour
 
     public void Start()
     {
-      addedPlanes = planeGenerator.Generate(simulationLayer).ToList();
+      trackablesRoot = new GameObject("[Trackables]");
+      trackablesRoot.transform.SetParent(transform);
+      trackablesRoot.hideFlags = HideFlags.NotEditable | HideFlags.DontSave;
+      trackablesRoot.layer = (int)Mathf.Log(simulationLayer.value, 2);
+
+      // Generate simulated planes.
+      var planeGenerator = new PRSPlaneGenerator(trackablesRoot);
+      planes = planeGenerator.Generate(simulationLayer);
+      addedPlanes = planes.ToList();
     }
     
     /// <summary>
@@ -78,30 +84,9 @@ namespace PleaseRemainSeated.Simulation
     {
       added = addedPlanes.ToList();
       addedPlanes.Clear();
-
+      
       updated = new List<SimulatedPlane>();
       removed = new List<TrackableId>();
-    }
-
-    public void OnDrawGizmos()
-    {
-      if (drawPlaneGizmos && (planes?.Count ?? 0) > 0)
-      {
-        foreach (var plane in planes.OrderByDescending(p => p.alignment))
-        {
-          DrawPlaneGizmo(plane);
-        }
-      }
-    }
-
-    private void DrawPlaneGizmo(SimulatedPlane plane)
-    {
-      Gizmos.color = plane.alignment == PlaneAlignment.Vertical ? Color.yellow : Color.cyan;
-      
-      for (int i = 0; i < plane.boundary.Count - 1; i++)
-        Gizmos.DrawLine(plane.boundary[i], plane.boundary[i+1]);
-
-      Gizmos.DrawLine(plane.boundary[plane.boundary.Count - 1], plane.boundary[0]);
     }
 
     #endregion

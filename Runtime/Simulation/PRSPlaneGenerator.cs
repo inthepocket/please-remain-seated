@@ -1,5 +1,7 @@
+using System.CodeDom;
 using System.Linq;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.XR.ARSubsystems;
 
@@ -16,26 +18,34 @@ namespace PleaseRemainSeated.Simulation
     // Maximum angle between two planes to be considered equal.
     private static readonly double MaximumFaceAngle = 1;
 
-    public List<SimulatedPlane> planes = new List<SimulatedPlane>();
+    /// <summary>
+    /// Root transform for simulated plane objects.
+    /// </summary>
+    public Transform rootObject;
 
+    public PRSPlaneGenerator(GameObject rootObject)
+    {
+      this.rootObject = rootObject.transform;
+    }
+    
     /// <summary>
     /// Generates simulated plane data from scene colliders.
     /// </summary>
     /// <param name="simulationLayer">AR simulation layer.</param>
     public List<SimulatedPlane> Generate(LayerMask simulationLayer)
     { 
-      planes = Object.FindObjectsOfType<BoxCollider>()
-        .SelectMany(GetPlanesFromCollider)
+      var planes = Object.FindObjectsOfType<BoxCollider>()
+        .SelectMany(CreatePlanesFromCollider)
         .ToList();
 
-      var horizontalCount = planes.Count(p => p.alignment == PlaneAlignment.HorizontalUp);
+      var horizontalCount = planes.Count(p => p.alignment == PlaneAlignment.HorizontalUp || p.alignment == PlaneAlignment.HorizontalDown);
       var verticalCount = planes.Count(p => p.alignment == PlaneAlignment.Vertical);
       Debug.Log($"Found {horizontalCount} horizontal and {verticalCount} vertical planes in the scene.");
-
+      
       return planes;
     }
 
-    private List<SimulatedPlane> GetPlanesFromCollider(BoxCollider box)
+    private List<SimulatedPlane> CreatePlanesFromCollider(BoxCollider box)
     {
       var result = new List<SimulatedPlane>();
       
@@ -63,41 +73,38 @@ namespace PleaseRemainSeated.Simulation
         // HorizontalUp
         if (Vector3.Angle(worldSpaceNormal, Vector3.up) <= MaximumFaceAngle)
         {
-          var plane = new SimulatedPlane(
-            PlaneAlignment.HorizontalUp,
-            worldSpaceNormal,
-            GetPointsFromBoxColliderFace(box, face.normal)
-            );
-          
-          result.Add(plane);
+          result.Add(CreatePlane(PlaneAlignment.HorizontalUp, face.normal, box));
         }
-        
+
         // HorizontalDown
         if (Vector3.Angle(worldSpaceNormal, Vector3.down) <= MaximumFaceAngle)
         {
-          var plane = new SimulatedPlane(
-            PlaneAlignment.HorizontalDown,
-            worldSpaceNormal,
-            GetPointsFromBoxColliderFace(box, face.normal)
-          );
-          
-          result.Add(plane);
+          result.Add(CreatePlane(PlaneAlignment.HorizontalDown, face.normal, box));
         }
 
         // Vertical
         if (Mathf.Abs(Vector3.Dot(Vector3.up, worldSpaceNormal)) < Mathf.Epsilon)
         {
-          var plane = new SimulatedPlane(
-            PlaneAlignment.Vertical,
-            worldSpaceNormal,
-            GetPointsFromBoxColliderFace(box, face.normal)
-          );
-          
-          result.Add(plane);
+          result.Add(CreatePlane(PlaneAlignment.Vertical, face.normal, box));
         }
       }
-
+      
       return result;
+    }
+
+    private SimulatedPlane CreatePlane(PlaneAlignment alignment, Vector3 normal, BoxCollider box)
+    {
+      var identifier = PRSUtils.GenerateTrackableId();
+      
+      var obj = new GameObject($"Plane {identifier.ToString()}");
+      obj.transform.SetParent(rootObject);
+      obj.hideFlags = rootObject.gameObject.hideFlags;
+      obj.layer = rootObject.gameObject.layer;
+      
+      var plane = obj.AddComponent<SimulatedPlane>();
+      plane.Create(identifier, alignment, normal, GetPointsFromBoxColliderFace(box, normal));
+
+      return plane;
     }
 
     private List<Vector3> GetPointsFromBoxColliderFace(BoxCollider box, Vector3 normal)
