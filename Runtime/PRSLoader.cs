@@ -12,6 +12,8 @@ namespace PleaseRemainSeated
   {
     static List<XRSessionSubsystemDescriptor> s_SessionSubsystemDescriptors = new List<XRSessionSubsystemDescriptor>();
     static List<XRCameraSubsystemDescriptor> s_CameraSubsystemDescriptors = new List<XRCameraSubsystemDescriptor>();
+    static List<XRPlaneSubsystemDescriptor> s_PlaneSubsystemDescriptors = new List<XRPlaneSubsystemDescriptor>();
+    static List<XRRaycastSubsystemDescriptor> s_RaycastSubsystemDescriptors = new List<XRRaycastSubsystemDescriptor>();
 
     /// <summary>
     /// The `XRSessionSubsystem` whose lifecycle is managed by this loader.
@@ -27,6 +29,8 @@ namespace PleaseRemainSeated
 #if UNITY_EDITOR || UNITY_STANDALONE
       CreateSubsystem<XRSessionSubsystemDescriptor, XRSessionSubsystem>(s_SessionSubsystemDescriptors, "PRS-Session");
       CreateSubsystem<XRCameraSubsystemDescriptor, XRCameraSubsystem>(s_CameraSubsystemDescriptors, "PRS-Camera");
+      CreateSubsystem<XRPlaneSubsystemDescriptor, XRPlaneSubsystem>(s_PlaneSubsystemDescriptors, "PRS-Plane");
+      CreateSubsystem<XRRaycastSubsystemDescriptor, XRRaycastSubsystem>(s_RaycastSubsystemDescriptors, "PRS-Raycast");
 
       if (sessionSubsystem == null)
       {
@@ -48,6 +52,8 @@ namespace PleaseRemainSeated
 #if UNITY_EDITOR || UNITY_STANDALONE
       StartSubsystem<XRSessionSubsystem>();
       StartSubsystem<XRCameraSubsystem>();
+      StartSubsystem<XRPlaneSubsystem>();
+      StartSubsystem<XRRaycastSubsystem>();
 
       return true;
 #else
@@ -64,6 +70,8 @@ namespace PleaseRemainSeated
 #if UNITY_EDITOR || UNITY_STANDALONE
       StopSubsystem<XRSessionSubsystem>();
       StopSubsystem<XRCameraSubsystem>();
+      StopSubsystem<XRPlaneSubsystem>();
+      StopSubsystem<XRRaycastSubsystem>();
 
       return true;
 #else
@@ -80,6 +88,8 @@ namespace PleaseRemainSeated
 #if UNITY_EDITOR || UNITY_STANDALONE
       DestroySubsystem<XRSessionSubsystem>();
       DestroySubsystem<XRCameraSubsystem>();
+      DestroySubsystem<XRPlaneSubsystem>();
+      DestroySubsystem<XRRaycastSubsystem>();
 #endif
       return true;
     }

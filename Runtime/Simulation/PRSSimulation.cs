@@ -2,10 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.XR.ARSubsystems;
-using UnityEngine.Assertions;
-using PleaseRemainSeated;
-
-using Debug = UnityEngine.Debug;
 using Object = UnityEngine.Object;
 
 namespace PleaseRemainSeated.Simulation
@@ -54,18 +50,43 @@ namespace PleaseRemainSeated.Simulation
     /// </summary>
     public PRSSimulatedDevice device;
 
+    /// <summary>
+    /// Simulated AR planes.
+    /// </summary>
+    public List<PRSSimulatedPlane> planes = new List<PRSSimulatedPlane>();
+
+    private List<PRSSimulatedPlane> addedPlanes = new List<PRSSimulatedPlane>();
+    
+    private GameObject trackablesRoot;
+    
     #region MonoBehaviour
 
     public void Start()
     {
-    }
+      trackablesRoot = new GameObject("[Trackables]");
+      trackablesRoot.transform.SetParent(transform);
+      trackablesRoot.hideFlags = HideFlags.NotEditable | HideFlags.DontSave;
+      trackablesRoot.layer = (int)Mathf.Log(simulationLayer.value, 2);
 
-    public void Update()
-    {
+      // Generate simulated planes.
+      var planeGenerator = new PRSPlaneGenerator(trackablesRoot);
+      planes = planeGenerator.Generate(simulationLayer);
+      addedPlanes = planes.ToList();
     }
-
-    public void OnDestroy()
+    
+    /// <summary>
+    /// Gets and clears plane updates (planes added, updated, deleted) since the last invocation.
+    /// </summary>
+    /// <param name="added">List of added planes.</param>
+    /// <param name="updated">List of updated planes.</param>
+    /// <param name="removed">List of removed plane ID's.</param>
+    public void ConsumePlaneUpdates(out List<PRSSimulatedPlane> added, out List<PRSSimulatedPlane> updated, out List<TrackableId> removed)
     {
+      added = addedPlanes.ToList();
+      addedPlanes.Clear();
+      
+      updated = new List<PRSSimulatedPlane>();
+      removed = new List<TrackableId>();
     }
 
     #endregion
