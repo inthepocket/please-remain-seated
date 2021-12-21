@@ -85,6 +85,7 @@ namespace PleaseRemainSeated
         Ray ray = PRSSimulation.instance.device.Camera.ViewportPointToRay(screenPoint);
         var hits = Physics.RaycastAll(ray, Mathf.Infinity)
           .Where(h => h.collider.gameObject.GetComponent<PRSSimulatedPlane>() != null)
+          .Where(h => h.collider.gameObject.GetComponent<PRSSimulatedPlane>().isDetected == true)
           .OrderBy(h => h.distance)
           .ToList();
 
@@ -103,7 +104,7 @@ namespace PleaseRemainSeated
           data[i] = PRSUtils.CopyData<XRRaycastHit>(record);
         }
 
-        return new NativeArray<XRRaycastHit>(data, allocator);;
+        return new NativeArray<XRRaycastHit>(data, allocator);
       }
     }
   }

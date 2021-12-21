@@ -27,6 +27,26 @@ namespace PleaseRemainSeated
     }
     
     /// <summary>
+    /// Checks whether the given plane alignment matches the given detection mode.
+    /// </summary>
+    /// <param name="alignment">Plane alignment.</param>
+    /// <param name="mode">Plane detection mode.</param>
+    /// <returns>True if both match.</returns>
+    internal static bool PlaneAlignmentMatchesDetectionMode(PlaneAlignment alignment, PlaneDetectionMode mode)
+    {
+      switch (mode)
+      {
+        case PlaneDetectionMode.Horizontal:
+          return alignment == PlaneAlignment.HorizontalDown || alignment == PlaneAlignment.HorizontalUp;
+        
+        case PlaneDetectionMode.Vertical:
+          return alignment == PlaneAlignment.Vertical;
+      }
+
+      return false;
+    }
+    
+    /// <summary>
     /// Generates a new, random Trackable ID.
     /// </summary>
     /// <returns>Trackable ID.</returns>

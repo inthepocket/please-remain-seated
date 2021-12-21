@@ -38,6 +38,8 @@ namespace PleaseRemainSeated
 
     class PRSProvider : Provider
     {
+      private PlaneDetectionMode planeDetectionMode = PlaneDetectionMode.None;
+      
       public override void Destroy()
       {
       }
@@ -50,19 +52,17 @@ namespace PleaseRemainSeated
       {
       }
 
-      // TODO
       public override PlaneDetectionMode requestedPlaneDetectionMode
       {
-        get => PlaneDetectionMode.Horizontal | PlaneDetectionMode.Vertical;
-        set { }
+        get => planeDetectionMode;
+        set => planeDetectionMode = value;
       }
 
-      // TODO
-      public override PlaneDetectionMode currentPlaneDetectionMode => PlaneDetectionMode.Horizontal | PlaneDetectionMode.Vertical;
+      public override PlaneDetectionMode currentPlaneDetectionMode => planeDetectionMode;
       
       public override TrackableChanges<BoundedPlane> GetChanges(BoundedPlane defaultPlane, Allocator allocator)
       {
-        SimulationAPI.GetPlaneData(out var added, out var updated, out var removed, allocator);
+        SimulationAPI.GetPlaneData(planeDetectionMode, out var added, out var updated, out var removed, allocator);
         return TrackableChanges<BoundedPlane>.CopyFrom(added, updated, removed, allocator);
       }
       
@@ -100,12 +100,14 @@ namespace PleaseRemainSeated
       }
 
       internal static void GetPlaneData(
+        PlaneDetectionMode detectionMode,
         out NativeArray<BoundedPlane> added,
         out NativeArray<BoundedPlane> updated,
         out NativeArray<TrackableId> removed,
         Allocator allocator)
       {
         PRSSimulation.instance.ConsumePlaneUpdates(
+          detectionMode,
           out var simAdded,
           out var simUpdated,
           out var simRemoved);

@@ -51,6 +51,12 @@ namespace PleaseRemainSeated.Simulation
       get => _localBoundary;
     }
 
+    /// <summary>
+    /// Whether this plane has been detected by the plane subsystem.
+    /// </summary>
+    [HideInInspector]
+    public bool isDetected;
+
     public Vector2 size => CalculateSize(localBoundary);
 
     private TrackableId _identifier;

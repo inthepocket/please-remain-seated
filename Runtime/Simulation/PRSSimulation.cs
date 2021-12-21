@@ -54,8 +54,6 @@ namespace PleaseRemainSeated.Simulation
     /// Simulated AR planes.
     /// </summary>
     public List<PRSSimulatedPlane> planes = new List<PRSSimulatedPlane>();
-
-    private List<PRSSimulatedPlane> addedPlanes = new List<PRSSimulatedPlane>();
     
     private GameObject trackablesRoot;
     
@@ -71,25 +69,31 @@ namespace PleaseRemainSeated.Simulation
       // Generate simulated planes.
       var planeGenerator = new PRSPlaneGenerator(trackablesRoot);
       planes = planeGenerator.Generate(simulationLayer);
-      addedPlanes = planes.ToList();
     }
     
     /// <summary>
     /// Gets and clears plane updates (planes added, updated, deleted) since the last invocation.
     /// </summary>
+    /// <param name="detectionMode">Plane detection mode.</param>
     /// <param name="added">List of added planes.</param>
     /// <param name="updated">List of updated planes.</param>
     /// <param name="removed">List of removed plane ID's.</param>
-    public void ConsumePlaneUpdates(out List<PRSSimulatedPlane> added, out List<PRSSimulatedPlane> updated, out List<TrackableId> removed)
+    public void ConsumePlaneUpdates(PlaneDetectionMode detectionMode, out List<PRSSimulatedPlane> added, out List<PRSSimulatedPlane> updated, out List<TrackableId> removed)
     {
-      added = addedPlanes.ToList();
-      addedPlanes.Clear();
+      added = planes
+        .Where(p => p.isDetected == false)
+        .Where(p => PRSUtils.PlaneAlignmentMatchesDetectionMode(p.alignment, detectionMode))
+        .ToList();
+
+      foreach (var p in added)
+      {
+        p.isDetected = true;
+      }
       
       updated = new List<PRSSimulatedPlane>();
       removed = new List<TrackableId>();
     }
 
     #endregion
-
   }
 }
