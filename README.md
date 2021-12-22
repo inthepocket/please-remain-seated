@@ -4,7 +4,7 @@
 
 Third-party Unity [XR plugin](https://docs.unity3d.com/Manual/XRPluginArchitecture.html) that simulates AR features in the Unity editor and standalone builds.
 
-This project is the successor to [AR Simulator](https://git.inthepocket.org/team-aurora/unity-packages/itp-arsimulator-unity), which is now deprecated.
+This project is the successor to [AR Simulator](https://git.inthepocket.org/team-aurora/itp-arsimulator-unity), which is now deprecated.
 
 ## 🏔 Overview
 
