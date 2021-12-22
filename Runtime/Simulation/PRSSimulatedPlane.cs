@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
@@ -9,14 +10,17 @@ namespace PleaseRemainSeated.Simulation
   /// <summary>
   /// Represents a simulated AR plane.
   /// </summary>
-  public class PRSSimulatedPlane : MonoBehaviour
+  public class PRSSimulatedPlane : MonoBehaviour, PRSSimulatedTrackable
   {
-    /// <summary>
-    /// Trackable ID.
-    /// </summary>
     public TrackableId identifier
     {
       get => _identifier;
+    }
+
+    public PRSSimulatedTrackableStateChange stateChange
+    {
+      get => _stateChange;
+      set => _stateChange = value;
     }
 
     /// <summary>
@@ -56,12 +60,13 @@ namespace PleaseRemainSeated.Simulation
     /// </summary>
     [HideInInspector]
     public bool isDetected;
-
-    public Vector2 size => CalculateSize(localBoundary);
-
+    
     private TrackableId _identifier;
+    private PRSSimulatedTrackableStateChange _stateChange;
+    
     private PlaneAlignment _alignment;
     private List<Vector2> _localBoundary;
+    public Vector2 size => CalculateSize(localBoundary);
 
     /// <summary>
     /// Initializes the simulated plane.
