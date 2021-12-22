@@ -58,9 +58,7 @@ namespace PleaseRemainSeated.Simulation
     Vector3 _velocity = Vector3.zero;
 
     private RenderTexture _targetTexture;
-
-    Pose _pose;
-
+    
     void Awake()
     {
       _camera = GetComponent<Camera>();
@@ -69,7 +67,6 @@ namespace PleaseRemainSeated.Simulation
     private void LateUpdate()
     {
       ProcessInput();
-      
       arCamera.SetPositionAndRotation(transform.position, transform.rotation);
     }
 

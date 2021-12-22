@@ -35,7 +35,7 @@ namespace PleaseRemainSeated
       XRPlaneSubsystemDescriptor.Create(cinfo);
 #endif
     }
-
+    
     class PRSProvider : Provider
     {
       private PlaneDetectionMode planeDetectionMode = PlaneDetectionMode.None;
@@ -55,14 +55,17 @@ namespace PleaseRemainSeated
       public override PlaneDetectionMode requestedPlaneDetectionMode
       {
         get => planeDetectionMode;
-        set => planeDetectionMode = value;
+        set
+        {
+          planeDetectionMode = value;
+        } 
       }
-
+      
       public override PlaneDetectionMode currentPlaneDetectionMode => planeDetectionMode;
       
       public override TrackableChanges<BoundedPlane> GetChanges(BoundedPlane defaultPlane, Allocator allocator)
       {
-        SimulationAPI.GetPlaneData(planeDetectionMode, out var added, out var updated, out var removed, allocator);
+        SimulationAPI.GetPlaneData(currentPlaneDetectionMode, out var added, out var updated, out var removed, allocator);
         return TrackableChanges<BoundedPlane>.CopyFrom(added, updated, removed, allocator);
       }
       
@@ -151,16 +154,18 @@ namespace PleaseRemainSeated
       // Creates a <c>ARSubsystems.BoundedPlane</c> from a simulated plane.
       private static BoundedPlane ConvertSimulatedPlane(PRSSimulatedPlane p)
       {
-        var data = new BoundedPlaneData();
-        data.trackableId = p.identifier;
-        data.subsumedById = TrackableId.invalidId;
-        data.alignment = p.alignment;
-        data.trackingState = TrackingState.Tracking;
-        data.pose = p.pose;
-        data.center = p.center;
-        data.size = p.size;
-        data.nativePtr = IntPtr.Zero;
-        data.classification = PlaneClassification.None;
+        var data = new BoundedPlaneData
+        {
+          trackableId = p.identifier,
+          subsumedById = TrackableId.invalidId,
+          alignment = p.alignment,
+          trackingState = TrackingState.Tracking,
+          pose = p.pose,
+          center = p.center,
+          size = p.size,
+          nativePtr = IntPtr.Zero,
+          classification = PlaneClassification.None
+        };
 
         return PRSUtils.CopyData<BoundedPlane>(data);
       }

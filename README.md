@@ -24,9 +24,6 @@ These AR Foundation features are currently supported:
 - Passthrough rendering with `ARBackgroundRenderer`
 - Horizontal and vertical `ARPlane` detection based on scene `BoxCollider`s
 - Raycasting against planes
-
-These are planned:
-
 - `ARAnchor` creation on planes or at arbitrary positions
 
 ## 👋 Alternatives

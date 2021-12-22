@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using ICSharpCode.NRefactory.Ast;
 using UnityEngine;
 using UnityEngine.XR.ARSubsystems;
 using Object = UnityEngine.Object;
@@ -86,7 +85,7 @@ namespace PleaseRemainSeated.Simulation
     /// </summary>
     /// <param name="mode">Plane detection mode.</param>
     public void DetectPlanes(PlaneDetectionMode mode)
-    {
+    { 
       var detectedPlanes = planes
         .Where(p => p.isDetected == false)
         .Where(p => PRSUtils.PlaneAlignmentMatchesDetectionMode(p.alignment, mode))
@@ -155,9 +154,11 @@ namespace PleaseRemainSeated.Simulation
     { 
       var identifier = PRSUtils.GenerateTrackableId();
       
-      var obj = new GameObject($"Anchor {identifier.ToString()}");
-      obj.hideFlags = trackablesRoot.gameObject.hideFlags; 
-      obj.layer = trackablesRoot.gameObject.layer;
+      var obj = new GameObject($"Anchor {identifier.ToString()}")
+      {
+        hideFlags = trackablesRoot.gameObject.hideFlags,
+        layer = trackablesRoot.gameObject.layer
+      };
 
       if (parentTrackable.HasValue)
       {
@@ -174,7 +175,7 @@ namespace PleaseRemainSeated.Simulation
       
       var anchor = obj.AddComponent<PRSSimulatedAnchor>();
       anchor.Create(identifier, position, rotation);
-
+      anchor.stateChange = PRSSimulatedTrackableStateChange.Added;
       anchors.Add(anchor);
       return anchor;
     }

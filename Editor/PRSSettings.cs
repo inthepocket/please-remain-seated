@@ -1,8 +1,6 @@
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.XR.Management;
-using System.IO;
-using System.Linq;
 
 namespace PleaseRemainSeated.Editor
 {
@@ -24,7 +22,7 @@ namespace PleaseRemainSeated.Editor
       Required,
 
       /// <summary>
-      /// Tthe app can be installed on devices that do not support Please Remain Seated.
+      /// The app can be installed on devices that do not support Please Remain Seated.
       /// </summary>
       Optional
     }
@@ -37,8 +35,8 @@ namespace PleaseRemainSeated.Editor
     /// </summary>
     public Requirement requirement
     {
-      get { return m_Requirement; }
-      set { m_Requirement = value; }
+      get => m_Requirement;
+      set => m_Requirement = value;
     }
 
     /// <summary>
@@ -89,8 +87,6 @@ namespace PleaseRemainSeated.Editor
       return new SerializedObject(GetOrCreateSettings());
     }
 
-    const string k_SettingsKey = "PleaseRemainSeated.Editor.PRSSettings";
-    const string k_OldConfigObjectName = "com.inthepocket.pleaseremainseated.PlayerSettings";
-
+    private const string k_SettingsKey = "PleaseRemainSeated.Editor.PRSSettings";
   }
 }

@@ -47,7 +47,7 @@ namespace PleaseRemainSeated
       {
       }
       
-      public override unsafe NativeArray<XRRaycastHit> Raycast(
+      public override NativeArray<XRRaycastHit> Raycast(
         XRRaycastHit defaultRaycastHit,
         Vector2 screenPoint,
         TrackableType trackableTypeMask,
@@ -79,13 +79,16 @@ namespace PleaseRemainSeated
         public TrackableType hitType;
       }
       
+      // ReSharper disable once UnusedParameter.Local
       internal static NativeArray<XRRaycastHit> TryRaycastPlanesWithinBounds(XRRaycastHit defaultRaycastHit, Vector2 screenPoint,
         Allocator allocator)
-      {
+      { 
         Ray ray = PRSSimulation.instance.device.Camera.ViewportPointToRay(screenPoint);
+        
+        // ReSharper disable once Unity.PreferNonAllocApi
         var hits = Physics.RaycastAll(ray, Mathf.Infinity)
           .Where(h => h.collider.gameObject.GetComponent<PRSSimulatedPlane>() != null)
-          .Where(h => h.collider.gameObject.GetComponent<PRSSimulatedPlane>().isDetected == true)
+          .Where(h => h.collider.gameObject.GetComponent<PRSSimulatedPlane>().isDetected)
           .OrderBy(h => h.distance)
           .ToList();
 

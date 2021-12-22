@@ -1,7 +1,5 @@
-using System.CodeDom;
 using System.Linq;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.XR.ARSubsystems;
 
@@ -173,6 +171,7 @@ namespace PleaseRemainSeated.Simulation
         };
       }
       
+      // ReSharper disable once AssignNullToNotNullAttribute
       return localPts
         .Select(p => box.gameObject.transform.TransformPoint(box.center + p))
         .ToList();

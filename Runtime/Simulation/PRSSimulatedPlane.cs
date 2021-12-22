@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
@@ -12,10 +11,7 @@ namespace PleaseRemainSeated.Simulation
   /// </summary>
   public class PRSSimulatedPlane : MonoBehaviour, PRSSimulatedTrackable
   {
-    public TrackableId identifier
-    {
-      get => _identifier;
-    }
+    public TrackableId identifier => _identifier;
 
     public PRSSimulatedTrackableStateChange stateChange
     {
@@ -26,34 +22,22 @@ namespace PleaseRemainSeated.Simulation
     /// <summary>
     /// Plane alignment.
     /// </summary>
-    public PlaneAlignment alignment
-    {
-      get => _alignment;
-    }
-    
+    public PlaneAlignment alignment => _alignment;
+
     /// <summary>
     /// Center point in world space.
     /// </summary>
-    public Vector3 center
-    {
-      get => transform.position;
-    }
-    
+    public Vector3 center => transform.position;
+
     /// <summary>
     /// Pose in world space.
     /// </summary>
-    public Pose pose
-    {
-      get => new Pose(transform.position, transform.rotation);
-    }
+    public Pose pose => new Pose(transform.position, transform.rotation);
 
     /// <summary>
     /// Plane boundary in local space.
     /// </summary>
-    public List<Vector2> localBoundary
-    {
-      get => _localBoundary;
-    }
+    public List<Vector2> localBoundary => _localBoundary;
 
     /// <summary>
     /// Whether this plane has been detected by the plane subsystem.
@@ -64,6 +48,7 @@ namespace PleaseRemainSeated.Simulation
     private TrackableId _identifier;
     private PRSSimulatedTrackableStateChange _stateChange;
     
+
     private PlaneAlignment _alignment;
     private List<Vector2> _localBoundary;
     public Vector2 size => CalculateSize(localBoundary);
@@ -71,14 +56,14 @@ namespace PleaseRemainSeated.Simulation
     /// <summary>
     /// Initializes the simulated plane.
     /// </summary>
-    /// <param name="identifier">Trackable ID.</param>
-    /// <param name="alignment">Alignment type.</param>
+    /// <param name="id">Trackable ID.</param>
+    /// <param name="alignmentType">Alignment type.</param>
     /// <param name="normal">Plane normal.</param>
     /// <param name="boundary">Plane boundary in world space.</param>
-    public void Create(TrackableId identifier, PlaneAlignment alignment, Vector3 normal, List<Vector3> boundary)
+    public void Create(TrackableId id, PlaneAlignment alignmentType, Vector3 normal, List<Vector3> boundary)
     {
-      _identifier = identifier;
-      _alignment = alignment;
+      _identifier = id;
+      _alignment = alignmentType;
       
       transform.position = CalculateCenter(boundary);
       transform.rotation = Quaternion.FromToRotation(Vector3.up, normal);
@@ -90,17 +75,22 @@ namespace PleaseRemainSeated.Simulation
         .ToList();
 
       CreateRaycastCollider(boundary, normal);
+
+      isDetected = false;
     }
 
     private void CreateRaycastCollider(List<Vector3> vertices, Vector3 normal)
     {
-      var mesh = new Mesh();
-      mesh.vertices = vertices.Select(v => transform.InverseTransformPoint(v)).ToArray();
-      mesh.normals = Enumerable.Repeat(normal, vertices.Count).ToArray();
+      var mesh = new Mesh
+      {
+        vertices = vertices.Select(v => transform.InverseTransformPoint(v)).ToArray(),
+        normals = Enumerable.Repeat(normal, vertices.Count).ToArray()
+      };
+      
       mesh.triangles = PRSUtils.TriangulateConvexPolygon(mesh.vertices);
 
-      var collider = gameObject.AddComponent<MeshCollider>();
-      collider.sharedMesh = mesh;
+      var meshCollider = gameObject.AddComponent<MeshCollider>();
+      meshCollider.sharedMesh = mesh;
     }
     
     // Calculates the center (average) of the given set of points.

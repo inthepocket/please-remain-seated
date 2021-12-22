@@ -9,7 +9,7 @@ namespace PleaseRemainSeated
 {
   public static class PRSUtils
   {
-    private static Random rng = new Random();
+    private static readonly Random rng = new Random();
     
     // Constructs a mock "native" object by copying data from a managed proxy object.
     internal static T CopyData<T>(System.Object data)
@@ -34,15 +34,18 @@ namespace PleaseRemainSeated
     /// <returns>True if both match.</returns>
     internal static bool PlaneAlignmentMatchesDetectionMode(PlaneAlignment alignment, PlaneDetectionMode mode)
     {
-      switch (mode)
+      var horizontalAlignment = (alignment == PlaneAlignment.HorizontalDown || alignment == PlaneAlignment.HorizontalUp);
+      
+      if (mode.HasFlag(PlaneDetectionMode.Horizontal) && horizontalAlignment)
       {
-        case PlaneDetectionMode.Horizontal:
-          return alignment == PlaneAlignment.HorizontalDown || alignment == PlaneAlignment.HorizontalUp;
-        
-        case PlaneDetectionMode.Vertical:
-          return alignment == PlaneAlignment.Vertical;
+        return true;
       }
-
+      
+      if (mode.HasFlag(PlaneDetectionMode.Vertical) && alignment == PlaneAlignment.Vertical)
+      {
+        return true;
+      }
+      
       return false;
     }
     

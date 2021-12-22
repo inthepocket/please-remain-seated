@@ -118,15 +118,17 @@ namespace PleaseRemainSeated
         removed = new NativeArray<TrackableId>(simRemoved.ToArray(), allocator);
       }
 
-      // Creates a <c>ARSubsystems.XRANchor</c> from a simulated anchor.
+      // Creates a <c>ARSubsystems.XRAnchor</c> from a simulated anchor.
       private static XRAnchor ConvertSimulatedAnchor(PRSSimulatedAnchor a)
       {
-        var data = new XRAnchorData();
-        data.trackableId = a.identifier;
-        data.pose = a.pose;
-        data.trackingState = TrackingState.Tracking;
-        data.nativePtr = IntPtr.Zero;
-        data.sessionId = Guid.Empty;
+        var data = new XRAnchorData
+        {
+          trackableId = a.identifier,
+          pose = a.pose,
+          trackingState = TrackingState.Tracking,
+          nativePtr = IntPtr.Zero,
+          sessionId = Guid.Empty
+        };
 
         return PRSUtils.CopyData<XRAnchor>(data);
       }

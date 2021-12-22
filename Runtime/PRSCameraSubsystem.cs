@@ -84,9 +84,7 @@ namespace PleaseRemainSeated
       /// <c>true</c> if camera permission has been granted for this app. Otherwise, <c>false</c>.
       /// </value>
       public override bool permissionGranted => SimulationAPI.IsCameraPermissionGranted();
-
-      // ^ TODO: simulate permissions?
-
+      
       /// <summary>
       /// Constructs the Please Remain Seated camera functionality provider.
       /// </summary>
@@ -98,11 +96,11 @@ namespace PleaseRemainSeated
       /// <summary>
       /// Get the currently active camera or set the requested camera.
       /// </summary>
-      public override Feature requestedCamera
-      {
-        get => SimulationAPI.GetCameraFeatures();
-      }
+      public override Feature requestedCamera => SimulationAPI.GetCameraFeatures();
 
+      /// <summary>
+      /// Get the currently active camera.
+      /// </summary>
       public override Feature currentCamera => requestedCamera;
 
       /// <summary>
@@ -206,8 +204,7 @@ namespace PleaseRemainSeated
       }
 
       public static bool IsCameraPermissionGranted()
-      {
-        // TODO: simulate?
+      { 
         return true;
       }
 
@@ -224,14 +221,17 @@ namespace PleaseRemainSeated
       {
       }
 
+      // ReSharper disable once UnusedParameter.Local
       public static bool TryGetFrame(XRCameraParams cameraParams, out XRCameraFrame cameraFrame)
       {
-        var data = new XRCameraFrameData();
-        data.projectionMatrix = PRSSimulation.instance.device.projectionMatrix;
-        data.timestampNs = (long) (Time.realtimeSinceStartup * 1e+9);
-        data.properties = XRCameraFrameProperties.ProjectionMatrix | XRCameraFrameProperties.Timestamp;
+        var data = new XRCameraFrameData
+        {
+          projectionMatrix = PRSSimulation.instance.device.projectionMatrix,
+          timestampNs = (long) (Time.realtimeSinceStartup * 1e+9),
+          properties = XRCameraFrameProperties.ProjectionMatrix | XRCameraFrameProperties.Timestamp
+        };
+        
         cameraFrame = PRSUtils.CopyData<XRCameraFrame>(data);
-
         return true;
       }
 
@@ -245,15 +245,17 @@ namespace PleaseRemainSeated
       {
         var texture = PRSSimulation.instance.device.targetTexture;
 
-        var data = new XRTextureDescriptorData();
-        data.nativeTexturePtr = texture.GetNativeTexturePtr();
-        data.width = texture.width;
-        data.height = texture.height;
-        data.textureFormat = TextureFormat.RGB24;
-        data.mipMapCount = 0;
-        data.propertyNameID = shaderPropertyID;
-        data.depth = 1;
-        data.dimension = TextureDimension.Tex2D;
+        var data = new XRTextureDescriptorData
+        {
+          nativeTexturePtr = texture.GetNativeTexturePtr(),
+          width = texture.width,
+          height = texture.height,
+          textureFormat = TextureFormat.RGB24,
+          mipMapCount = 0,
+          propertyNameID = shaderPropertyID,
+          depth = 1,
+          dimension = TextureDimension.Tex2D
+        };
 
         var descriptor = PRSUtils.CopyData<XRTextureDescriptor>(data);
         var array = new[] {descriptor}; // TODO: cache?

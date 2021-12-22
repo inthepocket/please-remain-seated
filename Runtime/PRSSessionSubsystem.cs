@@ -25,6 +25,7 @@ namespace PleaseRemainSeated
 #endif
     }
 
+    // ReSharper disable once UnusedAutoPropertyAccessor.Global
     public static bool IsRunning { get; private set; }
 
     protected override void OnCreate()
