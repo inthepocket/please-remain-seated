@@ -40,7 +40,7 @@ namespace PleaseRemainSeated.Simulation
 
       var horizontalCount = planes.Count(p => p.alignment == PlaneAlignment.HorizontalUp || p.alignment == PlaneAlignment.HorizontalDown);
       var verticalCount = planes.Count(p => p.alignment == PlaneAlignment.Vertical);
-      Debug.Log($"Found {horizontalCount} horizontal and {verticalCount} vertical planes in the scene.");
+      Debug.Log($"Created {planes.Count} simulated planes from BoxColliders ({horizontalCount} horizontal, {verticalCount} vertical)");
       
       return planes;
     }

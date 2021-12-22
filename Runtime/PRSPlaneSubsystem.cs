@@ -106,8 +106,9 @@ namespace PleaseRemainSeated
         out NativeArray<TrackableId> removed,
         Allocator allocator)
       {
+        PRSSimulation.instance.DetectPlanes(detectionMode);
+        
         PRSSimulation.instance.ConsumePlaneUpdates(
-          detectionMode,
           out var simAdded,
           out var simUpdated,
           out var simRemoved);
@@ -158,6 +159,7 @@ namespace PleaseRemainSeated
         data.pose = p.pose;
         data.center = p.center;
         data.size = p.size;
+        data.nativePtr = IntPtr.Zero;
         data.classification = PlaneClassification.None;
 
         return PRSUtils.CopyData<BoundedPlane>(data);
