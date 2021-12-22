@@ -38,7 +38,7 @@ namespace PleaseRemainSeated.Simulation
 
       var horizontalCount = planes.Count(p => p.alignment == PlaneAlignment.HorizontalUp || p.alignment == PlaneAlignment.HorizontalDown);
       var verticalCount = planes.Count(p => p.alignment == PlaneAlignment.Vertical);
-      Debug.Log($"Created {planes.Count} simulated planes from BoxColliders ({horizontalCount} horizontal, {verticalCount} vertical)");
+      Debug.Log($"[Please Remain Seated] Created {planes.Count} simulated planes from BoxColliders ({horizontalCount} horizontal, {verticalCount} vertical)");
       
       return planes;
     }

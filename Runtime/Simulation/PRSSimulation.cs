@@ -182,7 +182,6 @@ namespace PleaseRemainSeated.Simulation
 
     public bool RemoveAnchor(TrackableId identifier)
     {
-      Debug.Log($"Removing anchor " + identifier);
       var anchor = trackablesRoot
         .GetComponentsInChildren<PRSSimulatedAnchor>()
         .FirstOrDefault(t => t.identifier == identifier);

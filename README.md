@@ -1,34 +1,44 @@
 # 🪑 Please Remain Seated
 
-![](https://img.shields.io/badge/Unity-2020.3-red.svg) ![](https://img.shields.io/badge/AR_Foundation-4.1.7-green.svg) ![](https://img.shields.io/badge/Universal_Render_Pipeline-10.x-blue.svg)
+![](https://img.shields.io/badge/UPM-com.inthepocket.pleaseremainseated-purple.svg) ![](https://img.shields.io/badge/Version-1.0.0-orange.svg) ![](https://img.shields.io/badge/Unity-2020.3-blue.svg)
 
-Third-party Unity [XR plugin](https://docs.unity3d.com/Manual/XRPluginArchitecture.html) that simulates AR features in the Unity editor and standalone builds. Developed at [In The Pocket](https://inthepocket.com) in beautiful Ghent, Belgium.
+Third-party Unity [XR plugin](https://docs.unity3d.com/Manual/XRPluginArchitecture.html) that simulates AR features in the Unity editor and standalone builds.
+
+This project is the successor to [AR Simulator](https://git.inthepocket.org/team-aurora/unity-packages/itp-arsimulator-unity), which is now deprecated.
 
 ## 🏔 Overview
 
-(insert video here)
-
 The goal of this plugin is to reduce the need for on-device deployment and testing by simulating the features and behaviour of mobile AR frameworks like ARKit and ARCore inside the Unity editor. It also dramatically reduces the need for AR developers to get up from their chairs during development, hence the name.
-
-Currently the plugin does not put in a lot of effort to be compatible with different versions of Unity or AR Foundation, and it only supports the Universal Render Pipeline. This version has been tested and validated to work properly with:
-
-- Unity 2020.3
-- AR Foundation 4.1.7
-- Universal Render Pipeline 10.x
-
-## 👷🏻‍♀️ Features
 
 These AR Foundation features are currently supported:
 
 - `ARSession` management
-- Passthrough rendering with `ARBackgroundRenderer`
+- Passthrough rendering with a custom `ARBackgroundRenderer`
 - Horizontal and vertical `ARPlane` detection based on scene `BoxCollider`s
-- Raycasting against planes
+- Raycasting against `ARPlane`s
 - `ARAnchor` creation on planes or at arbitrary positions
 
-## 👋 Alternatives
+This version has been tested and validated to work properly with:
 
-If you were looking for a way to simulate AR features in the Unity editor but find that this package doesn't match your needs, consider these alternatives:
+- Unity 2020.3 LTS
+- AR Foundation 4.1.7
+- Universal Render Pipeline 10.7
 
-- [AR Simulation](https://github.com/needle-tools/ar-simulation): third-party commercial plugin that has uses a similar approach to Please Remain Seated, but with better compatibility and support.
-- [Unity MARS](https://unity.com/products/unity-mars): first-party Unity framework and toolset that includes advanced simulation & remoting tools.
+## 👨🏻‍💻 Usage
+
+Add this library to your Unity project's `Packages/manifest.json`:
+
+```json
+{
+  "com.inthepocket.pleaseremainseated": "git@git.inthepocket.org:team-aurora/unity-packages/itp-pleaseremainseated-unity.git#1.0.0"
+}
+```
+
+## 🤝 Contributing
+
+Please submit a pull request if you have something to contribute. To be elegible for inclusion, your code must
+
+1. solve a generic problem that is applicable to most or all Unity projects (no project-specific or highly domain-specific code);
+2. be as cross-platform as possible (and at the very least compile on every platform);
+3. be properly structured according to [our development standards](https://confluence.itpservices.be/display/UNITY/Development+Standards);
+4. include appropriate unit and/or integration tests.

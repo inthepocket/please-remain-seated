@@ -56,7 +56,7 @@ namespace PleaseRemainSeated
 
       if (sessionSubsystem == null)
       {
-        Debug.LogError("Failed to load session subsystem.");
+        Debug.LogError("[Please Remain Seated] Failed to load session subsystem.");
       }
 
       return sessionSubsystem != null;
