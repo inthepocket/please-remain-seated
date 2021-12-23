@@ -24,15 +24,17 @@ This version has been tested and validated to work properly with:
 - AR Foundation 4.1.7
 - Universal Render Pipeline 10.7
 
-## 👨🏻‍💻 Usage
+## 🧑🏻‍💻 Usage
 
 Add this library to your Unity project's `Packages/manifest.json`:
 
 ```json
 {
-  "com.inthepocket.pleaseremainseated": "git@git.inthepocket.org:team-aurora/unity-packages/itp-pleaseremainseated-unity.git#1.0.0"
+  "com.inthepocket.pleaseremainseated": "ssh://git@git.inthepocket.org/team-aurora/unity-packages/please-remain-seated.git#1.0.0",
 }
 ```
+
+For a usage example, see the [development project](https://git.inthepocket.org/team-aurora/unity-package-development/please-remain-seated-dev).
 
 ## 🤝 Contributing
 
