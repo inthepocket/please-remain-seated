@@ -129,7 +129,11 @@ namespace PleaseRemainSeated.Simulation
       removedPlanes.ForEach(p => p.stateChange = PRSSimulatedTrackableStateChange.Unchanged);
 
       // Delete simulated planes scheduled for removal.
-      removedPlanes.ForEach(p => Destroy(p.gameObject));
+      removedPlanes.ForEach(p =>
+      {
+        if (p != null) Destroy(p.gameObject);
+      });
+
     }
 
     #endregion
@@ -228,7 +232,10 @@ namespace PleaseRemainSeated.Simulation
       removedAnchors.ForEach(p => p.stateChange = PRSSimulatedTrackableStateChange.Unchanged);
 
       // Delete simulated anchors scheduled for removal.
-      removedAnchors.ForEach(p => Destroy(p.gameObject));
+      removedAnchors.ForEach(p =>
+      {
+        if (p != null) Destroy(p.gameObject);
+      });
     }
 
     #endregion

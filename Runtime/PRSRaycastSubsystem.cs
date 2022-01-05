@@ -53,9 +53,9 @@ namespace PleaseRemainSeated
         TrackableType trackableTypeMask,
         Allocator allocator)
       {
-        if (trackableTypeMask == TrackableType.PlaneWithinBounds)
+        if (trackableTypeMask == TrackableType.PlaneWithinPolygon)
         {
-          return SimulationAPI.TryRaycastPlanesWithinBounds(defaultRaycastHit, screenPoint, allocator);
+          return SimulationAPI.TryRaycastPlanesWithinPolygon(defaultRaycastHit, screenPoint, allocator);
         }
         else
         {
@@ -80,11 +80,11 @@ namespace PleaseRemainSeated
       }
       
       // ReSharper disable once UnusedParameter.Local
-      internal static NativeArray<XRRaycastHit> TryRaycastPlanesWithinBounds(XRRaycastHit defaultRaycastHit, Vector2 screenPoint,
+      internal static NativeArray<XRRaycastHit> TryRaycastPlanesWithinPolygon(XRRaycastHit defaultRaycastHit, Vector2 screenPoint,
         Allocator allocator)
       { 
         Ray ray = PRSSimulation.instance.device.Camera.ViewportPointToRay(screenPoint);
-        
+
         // ReSharper disable once Unity.PreferNonAllocApi
         var hits = Physics.RaycastAll(ray, Mathf.Infinity)
           .Where(h => h.collider.gameObject.GetComponent<PRSSimulatedPlane>() != null)
